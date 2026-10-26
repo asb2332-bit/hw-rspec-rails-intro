@@ -8,8 +8,8 @@ gem 'sass-rails', '~> 5.0.3'
 gem 'uglifier', '>= 2.7.1'
 
 gem 'jquery-rails'
-gem 'bigdecimal', '1.3.5'
 gem 'web-console', '~> 4'
+gem 'faraday', '1.8.0'  # in main group; simplifies calling TMDb
 
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
@@ -28,3 +28,10 @@ group :production do
   gem 'pg', '~> 0.2'
   gem 'rails_12factor'
 end
+
+group :test do
+  gem 'rails-controller-testing'
+  gem 'webmock'
+  gem 'guard-rspec'                 # automates re-running tests
+end
+

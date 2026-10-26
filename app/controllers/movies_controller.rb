@@ -21,6 +21,23 @@ class MoviesController < ApplicationController
     # default: render 'new' template
   end
 
+  def search_tmdb
+    search_terms = params[:search_terms] || params.permit(:title, :release_year, :language).to_h
+    title = search_terms.is_a?(String) ? search_terms : search_terms[:title] || search_terms['title']
+    if title.blank?
+      flash.now[:danger] = 'Please fill in all required fields!'
+      @movies = []
+    else
+      @movies = Movie.find_in_tmdb(search_terms)
+      flash.now[:warning] = 'No movies found with given parameters!' if @movies.empty?
+    end
+  end
+
+  def add_movie
+    movie = Movie.create!(movie_params)
+    redirect_to search_tmdb_path, flash: { success: "#{movie.title} was successfully added to RottenPotatoes." }
+  end
+
   def create
     @movie = Movie.create!(movie_params)
     flash[:notice] = "#{@movie.title} was successfully created."
@@ -65,5 +82,9 @@ class MoviesController < ApplicationController
 
   def sort_by
     params[:sort_by] || session[:sort_by] || 'id'
+  end
+
+  def movie_params
+    params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
 end
