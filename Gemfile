@@ -10,6 +10,7 @@ gem 'uglifier', '>= 2.7.1'
 gem 'jquery-rails'
 gem 'web-console', '~> 4'
 gem 'faraday', '1.8.0'  # in main group; simplifies calling TMDb
+gem 'json', '~> 2.7' # Sprockets 3 passes a removed JSON parser option
 
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
